@@ -10,91 +10,144 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminAgentsRouteImport } from './routes/admin.agents'
-import { Route as AdminDashboardsRouteImport } from './routes/admin.dashboards'
-import { Route as AdminDIdRouteImport } from './routes/admin.d.$id'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedWorkstationRouteImport } from './routes/_authenticated/workstation'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAgentsRouteImport } from './routes/_authenticated/admin.agents'
+import { Route as AuthenticatedAdminDashboardsRouteImport } from './routes/_authenticated/admin.dashboards'
+import { Route as AuthenticatedAdminDIdRouteImport } from './routes/_authenticated/admin.d.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedWorkstationRoute =
+  AuthenticatedWorkstationRouteImport.update({
+    id: '/workstation',
+    path: '/workstation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
-const AdminAgentsRoute = AdminAgentsRouteImport.update({
-  id: '/agents',
-  path: '/agents',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminDashboardsRoute = AdminDashboardsRouteImport.update({
-  id: '/dashboards',
-  path: '/dashboards',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminDIdRoute = AdminDIdRouteImport.update({
+const AuthenticatedAdminAgentsRoute =
+  AuthenticatedAdminAgentsRouteImport.update({
+    id: '/agents',
+    path: '/agents',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminDashboardsRoute =
+  AuthenticatedAdminDashboardsRouteImport.update({
+    id: '/dashboards',
+    path: '/dashboards',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminDIdRoute = AuthenticatedAdminDIdRouteImport.update({
   id: '/d/$id',
   path: '/d/$id',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
-  '/admin/agents': typeof AdminAgentsRoute
-  '/admin/dashboards': typeof AdminDashboardsRoute
-  '/admin/': typeof AdminIndexRoute
-  '/admin/d/$id': typeof AdminDIdRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/workstation': typeof AuthenticatedWorkstationRoute
+  '/admin/agents': typeof AuthenticatedAdminAgentsRoute
+  '/admin/dashboards': typeof AuthenticatedAdminDashboardsRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/d/$id': typeof AuthenticatedAdminDIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin/agents': typeof AdminAgentsRoute
-  '/admin/dashboards': typeof AdminDashboardsRoute
-  '/admin': typeof AdminIndexRoute
-  '/admin/d/$id': typeof AdminDIdRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/workstation': typeof AuthenticatedWorkstationRoute
+  '/admin/agents': typeof AuthenticatedAdminAgentsRoute
+  '/admin/dashboards': typeof AuthenticatedAdminDashboardsRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/d/$id': typeof AuthenticatedAdminDIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
-  '/admin/agents': typeof AdminAgentsRoute
-  '/admin/dashboards': typeof AdminDashboardsRoute
-  '/admin/': typeof AdminIndexRoute
-  '/admin/d/$id': typeof AdminDIdRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/workstation': typeof AuthenticatedWorkstationRoute
+  '/_authenticated/admin/agents': typeof AuthenticatedAdminAgentsRoute
+  '/_authenticated/admin/dashboards': typeof AuthenticatedAdminDashboardsRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/d/$id': typeof AuthenticatedAdminDIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/reset-password'
     | '/admin'
+    | '/workstation'
     | '/admin/agents'
     | '/admin/dashboards'
     | '/admin/'
     | '/admin/d/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/agents' | '/admin/dashboards' | '/admin' | '/admin/d/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/workstation'
+    | '/admin/agents'
+    | '/admin/dashboards'
+    | '/admin'
+    | '/admin/d/$id'
   id:
     | '__root__'
     | '/'
-    | '/admin'
-    | '/admin/agents'
-    | '/admin/dashboards'
-    | '/admin/'
-    | '/admin/d/$id'
+    | '/_authenticated'
+    | '/auth'
+    | '/reset-password'
+    | '/_authenticated/admin'
+    | '/_authenticated/workstation'
+    | '/_authenticated/admin/agents'
+    | '/_authenticated/admin/dashboards'
+    | '/_authenticated/admin/'
+    | '/_authenticated/admin/d/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -106,63 +159,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/workstation': {
+      id: '/_authenticated/workstation'
+      path: '/workstation'
+      fullPath: '/workstation'
+      preLoaderRoute: typeof AuthenticatedWorkstationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
       path: '/'
       fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/admin/agents': {
-      id: '/admin/agents'
+    '/_authenticated/admin/agents': {
+      id: '/_authenticated/admin/agents'
       path: '/agents'
       fullPath: '/admin/agents'
-      preLoaderRoute: typeof AdminAgentsRouteImport
-      parentRoute: typeof AdminRoute
+      preLoaderRoute: typeof AuthenticatedAdminAgentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/admin/dashboards': {
-      id: '/admin/dashboards'
+    '/_authenticated/admin/dashboards': {
+      id: '/_authenticated/admin/dashboards'
       path: '/dashboards'
       fullPath: '/admin/dashboards'
-      preLoaderRoute: typeof AdminDashboardsRouteImport
-      parentRoute: typeof AdminRoute
+      preLoaderRoute: typeof AuthenticatedAdminDashboardsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/admin/d/$id': {
-      id: '/admin/d/$id'
+    '/_authenticated/admin/d/$id': {
+      id: '/_authenticated/admin/d/$id'
       path: '/d/$id'
       fullPath: '/admin/d/$id'
-      preLoaderRoute: typeof AdminDIdRouteImport
-      parentRoute: typeof AdminRoute
+      preLoaderRoute: typeof AuthenticatedAdminDIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
   }
 }
 
-interface AdminRouteChildren {
-  AdminAgentsRoute: typeof AdminAgentsRoute
-  AdminDashboardsRoute: typeof AdminDashboardsRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminDIdRoute: typeof AdminDIdRoute
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAgentsRoute: typeof AuthenticatedAdminAgentsRoute
+  AuthenticatedAdminDashboardsRoute: typeof AuthenticatedAdminDashboardsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminDIdRoute: typeof AuthenticatedAdminDIdRoute
 }
 
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminAgentsRoute: AdminAgentsRoute,
-  AdminDashboardsRoute: AdminDashboardsRoute,
-  AdminIndexRoute: AdminIndexRoute,
-  AdminDIdRoute: AdminDIdRoute,
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAgentsRoute: AuthenticatedAdminAgentsRoute,
+  AuthenticatedAdminDashboardsRoute: AuthenticatedAdminDashboardsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminDIdRoute: AuthenticatedAdminDIdRoute,
 }
 
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+  AuthenticatedWorkstationRoute: typeof AuthenticatedWorkstationRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+  AuthenticatedWorkstationRoute: AuthenticatedWorkstationRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

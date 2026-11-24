@@ -3,7 +3,7 @@ import { agents } from "@/data/agents";
 import { dashboards, dashDepts } from "@/data/dashboards";
 import { LiveDots } from "@/components/ayra/WorkflowTree";
 
-export const Route = createFileRoute("/admin/d/$id")({
+export const Route = createFileRoute("/_authenticated/admin/d/$id")({
   loader: ({ params }) => {
     const d = dashboards.find((x) => x.id === params.id);
     if (!d) throw notFound();

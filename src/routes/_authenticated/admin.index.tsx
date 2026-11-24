@@ -3,7 +3,7 @@ import { Bot, Users, FolderKanban, ShieldAlert, IndianRupee, Server, Power, Chec
 import { agents, departments } from "@/data/agents";
 import { guardrails } from "@/data/dashboards";
 
-export const Route = createFileRoute("/admin/")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "CEO Command Center — AYRA HQ" },

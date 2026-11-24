@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { agents, departments } from "@/data/agents";
 
-export const Route = createFileRoute("/admin/agents")({
+export const Route = createFileRoute("/_authenticated/admin/agents")({
   validateSearch: (s: Record<string, unknown>): { dept?: string } => (typeof s["dept"] === "string" ? { dept: s["dept"] } : {}),
   head: () => ({
     meta: [

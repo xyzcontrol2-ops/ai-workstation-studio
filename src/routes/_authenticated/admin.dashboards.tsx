@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashLink } from "@/components/ayra/DashLink";
 import { architecture, dashboards, groups } from "@/data/dashboards";
 
-export const Route = createFileRoute("/admin/dashboards")({
+export const Route = createFileRoute("/_authenticated/admin/dashboards")({
   head: () => ({
     meta: [
       { title: "30 Dashboard Map — AYRA HQ" },
