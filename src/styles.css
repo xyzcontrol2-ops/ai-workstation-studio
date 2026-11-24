@@ -240,3 +240,6 @@ html[data-theme="light"] {
 @utility animate-dot { animation: dot 1.2s ease-in-out infinite; }
 @keyframes flow { from { background-position: 0 0; } to { background-position: 0 16px; } }
 @utility flow-line { background-image: linear-gradient(var(--glow) 40%, transparent 40%); background-size: 1px 8px; background-repeat: repeat-y; animation: flow .6s linear infinite; }
+/* talking: small nods + head tilts like a person speaking */
+@keyframes talk { 0%,100% { transform: rotate(0) translateY(0); } 20% { transform: rotate(-1.2deg) translateY(1px); } 45% { transform: rotate(.8deg) translateY(-2px); } 70% { transform: rotate(-.5deg) translateY(1px); } }
+@utility animate-talk { animation: talk 1.1s ease-in-out infinite; transform-origin: 50% 30%; }
