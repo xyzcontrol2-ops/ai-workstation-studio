@@ -7,9 +7,9 @@ export const Route = createFileRoute("/admin/agents")({
   validateSearch: (s: Record<string, unknown>): { dept?: string } => (typeof s["dept"] === "string" ? { dept: s["dept"] } : {}),
   head: () => ({
     meta: [
-      { title: "Agent Registry — AYRA HQ" },
+      { title: "AI Agents Dashboard — AYRA HQ" },
       { name: "description", content: "Directory of 100+ expert AI agents across engineering, DevOps, security, AI and more." },
-      { property: "og:title", content: "Agent Registry — AYRA HQ" },
+      { property: "og:title", content: "AI Agents Dashboard — AYRA HQ" },
       { property: "og:description", content: "100+ expert AI agents with department, status and risk level." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

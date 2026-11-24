@@ -6,9 +6,9 @@ import { guardrails } from "@/data/dashboards";
 export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
-      { title: "Super Admin — AYRA HQ" },
+      { title: "CEO Command Center — AYRA HQ" },
       { name: "description", content: "Super Admin control room for the AYRA AI agent marketplace: fleet, clients, security and approvals." },
-      { property: "og:title", content: "Super Admin — AYRA HQ" },
+      { property: "og:title", content: "CEO Command Center — AYRA HQ" },
       { property: "og:description", content: "Control room for 100+ AI agents, clients, servers and security." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -45,7 +45,7 @@ function SuperAdmin() {
     <main className="p-4 md:p-6">
       <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold">Super Admin <span className="text-ai">Control Room</span></h1>
+          <h1 className="text-xl font-bold">CEO <span className="text-ai">Command Center</span></h1>
           <p className="text-xs text-muted-foreground">Poore agent marketplace ka ek jagah se control. (Numbers abhi sample hain.)</p>
         </div>
         <button className="flex items-center gap-2 rounded border border-destructive/60 px-3 py-1.5 text-xs text-destructive hover:bg-destructive/10"><Power className="h-4 w-4" />Emergency kill-switch</button>

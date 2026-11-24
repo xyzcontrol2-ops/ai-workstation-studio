@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashLink } from "@/components/ayra/DashLink";
-import { dashboards } from "@/data/dashboards";
+import { architecture, dashboards, groups } from "@/data/dashboards";
 
 export const Route = createFileRoute("/admin/dashboards")({
   head: () => ({
     meta: [
-      { title: "Dashboard Map — AYRA HQ" },
-      { name: "description", content: "All 15 dashboards of the AYRA agent marketplace, who uses them and the build phases." },
-      { property: "og:title", content: "Dashboard Map — AYRA HQ" },
-      { property: "og:description", content: "Every dashboard planned for the AI agent marketplace, by phase." },
+      { title: "30 Dashboard Map — AYRA HQ" },
+      { name: "description", content: "All 30 AYRA dashboards: one central command center and 29 connected modules with role-isolated access." },
+      { property: "og:title", content: "30 Dashboard Map — AYRA HQ" },
+      { property: "og:description", content: "One central AYRA Command Center and 29 connected dashboard modules." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -16,24 +16,29 @@ export const Route = createFileRoute("/admin/dashboards")({
   component: DashMap,
 });
 
-const phaseName = { 1: "Phase 1 · Core", 2: "Phase 2 · Business", 3: "Phase 3 · Scale" } as const;
-
 function DashMap() {
   return (
     <main className="p-4 md:p-6">
-      <h1 className="text-xl font-bold">Dashboard <span className="text-ai">Map</span> <span className="font-mono text-sm text-muted-foreground">({dashboards.length})</span></h1>
-      <p className="mt-1 text-xs text-muted-foreground">Kitne dashboard honge aur kaun use karega. Super Admin se shuru, phir baaki phase-wise.</p>
-      {([1, 2, 3] as const).map((p) => (
-        <section key={p} className="mt-5">
-          <h2 className="mb-2 text-xs uppercase tracking-widest text-glow">{phaseName[p]}</h2>
+      <h1 className="text-xl font-bold">AYRA <span className="text-ai">30 Dashboard</span> Master List</h1>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
+        {architecture.map((a) => (
+          <div key={a.label} className="rounded border border-border bg-card p-2 text-center">
+            <div className="font-mono text-lg font-bold text-glow">{a.n}</div>
+            <div className="text-[11px] text-muted-foreground">{a.label}</div>
+          </div>
+        ))}
+      </div>
+      {groups.map((g) => (
+        <section key={g} className="mt-5">
+          <h2 className="mb-2 text-xs uppercase tracking-widest text-glow">{g}</h2>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {dashboards.filter((d) => d.phase === p).map((d) => (
-              <div key={d.id} className="rounded-lg border border-border bg-card p-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold">{d.name}</span>
-                  <DashLink id={d.id} className="rounded bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">Open</DashLink>
+            {dashboards.filter((d) => d.group === g).map((d) => (
+              <div key={d.id} className={`rounded-lg border bg-card p-3 ${d.no === 1 ? "border-glow glow-ring" : "border-border"}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold"><span className="mr-1.5 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name}</span>
+                  <DashLink id={d.id} className="shrink-0 rounded bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">Open</DashLink>
                 </div>
-                <p className="text-[11px] text-muted-foreground">👤 {d.audience}</p>
+                <p className="text-[11px] text-muted-foreground">🔒 {d.audience}</p>
                 <p className="mt-1 text-xs">{d.purpose}</p>
                 <div className="mt-2 flex flex-wrap gap-1">{d.widgets.map((w) => <span key={w} className="rounded bg-secondary px-1.5 py-0.5 text-[10px] text-muted-foreground">{w}</span>)}</div>
               </div>

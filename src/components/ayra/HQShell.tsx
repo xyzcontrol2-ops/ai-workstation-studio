@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Group, Panel } from "react-resizable-panels";
 import { LayoutDashboard, Bot, Map, MonitorPlay, ChevronDown, Terminal, Send, Mic, Paperclip, Wifi, Cpu, X } from "lucide-react";
-import { dashboards, dashDepts } from "@/data/dashboards";
+import { dashboards, dashDepts, groups } from "@/data/dashboards";
 import { useLiveWorkflows } from "@/hooks/use-live-workflows";
 import { AyraAvatar } from "./AyraAvatar";
 import { WorkflowTree } from "./WorkflowTree";
@@ -16,7 +16,6 @@ function currentId(path: string) {
   if (path.startsWith("/admin/dashboards")) return "map";
   return "super";
 }
-const phaseName = { 1: "Phase 1 · Core", 2: "Phase 2 · Business", 3: "Phase 3 · Scale" } as const;
 
 /** Shared VS Code-style frame for every dashboard: explorer, tabs, live terminal and AYRA with the live workflow tree. */
 export function HQShell({ children }: { children: ReactNode }) {
@@ -52,8 +51,8 @@ export function HQShell({ children }: { children: ReactNode }) {
       <div className="flex min-h-0 flex-1">
         <nav className="flex w-12 shrink-0 flex-col items-center gap-1 bg-activity py-2 text-activity-foreground">
           {[
-            { id: "super", icon: LayoutDashboard, label: "Super Admin" },
-            { id: "agents", icon: Bot, label: "Agent Registry" },
+            { id: "super", icon: LayoutDashboard, label: "CEO Command Center" },
+            { id: "agents", icon: Bot, label: "AI Agents" },
             { id: "map", icon: Map, label: "Dashboard Map" },
             { id: "workstation", icon: MonitorPlay, label: "Workstation" },
           ].map(({ id: i, icon: I, label }) => (
@@ -65,11 +64,11 @@ export function HQShell({ children }: { children: ReactNode }) {
           <Panel id="hq-explorer" defaultSize="16%" minSize="8%" maxSize="30%" className="hidden sm:block">
             <aside className="h-full overflow-auto bg-panel py-2">
               <div className="px-4 pb-1 text-[11px] uppercase tracking-widest text-muted-foreground">Dashboards</div>
-              {([1, 2, 3] as const).map((p) => (
-                <div key={p} className="mb-2">
-                  <div className="flex items-center gap-1 px-2 text-[11px] font-semibold"><ChevronDown className="h-3 w-3" />{phaseName[p]}</div>
-                  {dashboards.filter((d) => d.phase === p).map((d) => (
-                    <DashLink key={d.id} id={d.id} className="block truncate px-6 py-1 text-xs text-muted-foreground hover:bg-secondary">{d.name}</DashLink>
+              {groups.map((g) => (
+                <div key={g} className="mb-2">
+                  <div className="flex items-center gap-1 px-2 text-[11px] font-semibold uppercase"><ChevronDown className="h-3 w-3" />{g}</div>
+                  {dashboards.filter((d) => d.group === g).map((d) => (
+                    <DashLink key={d.id} id={d.id} className="flex gap-1.5 truncate px-5 py-1 text-xs text-muted-foreground hover:bg-secondary"><span className="font-mono text-glow/70">{String(d.no).padStart(2, "0")}</span><span className="truncate">{d.name}</span></DashLink>
                   ))}
                 </div>
               ))}
