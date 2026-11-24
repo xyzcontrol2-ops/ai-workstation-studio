@@ -154,36 +154,69 @@
   }
 }
 
-/* AYRA workstation theme */
+/* AYRA workstation theme — VS Code "Dark+" (default) and "Light+" via html[data-theme] */
 :root {
-  --background: oklch(0.14 0.02 250);
-  --foreground: oklch(0.93 0.01 240);
-  --card: oklch(0.18 0.025 250);
-  --card-foreground: oklch(0.93 0.01 240);
-  --popover: oklch(0.18 0.025 250);
-  --popover-foreground: oklch(0.93 0.01 240);
-  --primary: oklch(0.8 0.15 220);
-  --primary-foreground: oklch(0.14 0.02 250);
-  --secondary: oklch(0.22 0.03 250);
-  --secondary-foreground: oklch(0.9 0.01 240);
-  --muted: oklch(0.2 0.025 250);
-  --muted-foreground: oklch(0.62 0.03 240);
-  --accent: oklch(0.26 0.05 230);
-  --accent-foreground: oklch(0.95 0.01 240);
-  --border: oklch(0.27 0.03 250);
-  --input: oklch(0.27 0.03 250);
-  --ring: oklch(0.8 0.15 220);
-  --panel: oklch(0.11 0.018 250);
-  --activity: oklch(0.09 0.015 250);
-  --glow: oklch(0.82 0.16 215);
-  --success: oklch(0.78 0.16 155);
-  --warn: oklch(0.82 0.15 80);
-  --shadow-glow: 0 0 24px -4px color-mix(in oklab, var(--glow) 60%, transparent);
-  --gradient-ai: linear-gradient(135deg, var(--glow), oklch(0.92 0.02 240));
+  color-scheme: dark;
+  --background: oklch(0.248 0 0);
+  --foreground: oklch(0.84 0 0);
+  --card: oklch(0.285 0.003 250);
+  --card-foreground: oklch(0.86 0 0);
+  --popover: oklch(0.285 0.003 250);
+  --popover-foreground: oklch(0.86 0 0);
+  --primary: oklch(0.55 0.13 240);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.32 0.003 250);
+  --secondary-foreground: oklch(0.88 0 0);
+  --muted: oklch(0.3 0 0);
+  --muted-foreground: oklch(0.68 0 0);
+  --accent: oklch(0.36 0.04 245);
+  --accent-foreground: oklch(0.96 0 0);
+  --destructive: oklch(0.68 0.19 25);
+  --border: oklch(0.36 0 0);
+  --input: oklch(0.36 0 0);
+  --ring: oklch(0.65 0.13 240);
+  --panel: oklch(0.274 0.002 286);
+  --activity: oklch(0.32 0 0);
+  --activity-foreground: oklch(0.85 0 0);
+  --glow: oklch(0.78 0.12 235);
+  --success: oklch(0.78 0.12 145);
+  --warn: oklch(0.82 0.13 85);
+  --shadow-glow: 0 0 18px -6px color-mix(in oklab, var(--glow) 55%, transparent);
+  --gradient-ai: linear-gradient(135deg, var(--glow), oklch(0.9 0.05 200));
+}
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.32 0 0);
+  --card: oklch(0.985 0 0);
+  --card-foreground: oklch(0.28 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.28 0 0);
+  --primary: oklch(0.55 0.13 240);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.3 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.92 0.025 255);
+  --accent-foreground: oklch(0.25 0 0);
+  --destructive: oklch(0.55 0.2 27);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.88 0 0);
+  --ring: oklch(0.55 0.13 240);
+  --panel: oklch(0.966 0 0);
+  --activity: oklch(0.32 0 0);
+  --activity-foreground: oklch(0.9 0 0);
+  --glow: oklch(0.52 0.14 240);
+  --success: oklch(0.5 0.14 145);
+  --warn: oklch(0.55 0.14 70);
+  --shadow-glow: 0 1px 8px -2px color-mix(in oklab, var(--glow) 35%, transparent);
+  --gradient-ai: linear-gradient(135deg, var(--glow), oklch(0.5 0.15 280));
 }
 @theme inline {
   --color-panel: var(--panel);
   --color-activity: var(--activity);
+  --color-activity-foreground: var(--activity-foreground);
   --color-glow: var(--glow);
   --color-success: var(--success);
   --color-warn: var(--warn);

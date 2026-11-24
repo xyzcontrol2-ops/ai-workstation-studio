@@ -106,11 +106,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Applies saved/auto theme before paint to avoid a flash (logic mirrors src/hooks/use-theme.ts).
+const themeBoot = `try{var m=localStorage.getItem("ayra-theme")||"auto",h=new Date().getHours();document.documentElement.dataset.theme=m==="auto"?(h>=7&&h<18?"light":"dark"):m}catch(e){}`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
       </head>
       <body>
         {children}
