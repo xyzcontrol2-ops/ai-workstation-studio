@@ -62,3 +62,12 @@ export const guardrails = [
   "Sab kaam sandbox lab me; production par direct attack nahi",
   "Har action ka audit log, Super Admin ke paas kill-switch",
 ];
+
+const ALL = ["eng", "devops", "blue", "red", "ai", "data", "qa", "design", "mgmt", "market", "gov"];
+/** Which agent departments show up live on each dashboard. */
+export const dashDepts: Record<string, string[]> = {
+  super: ALL, agents: ALL, workstation: ALL, map: ALL,
+  marketplace: ["market", "design"], client: ["eng", "mgmt", "qa"], dev: ["eng", "mgmt", "qa"],
+  server: ["devops"], soc: ["blue"], offsec: ["red"], lab: ["ai", "data"], billing: ["market", "data"],
+  support: ["market"], people: ["mgmt"], compliance: ["gov", "blue"], "dev-api": ["eng", "devops"],
+};

@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { Group, Panel, Separator } from "react-resizable-panels";
+import { Group, Panel } from "react-resizable-panels";
 import {
   Files, Search, GitBranch, Bug, Blocks, Bot, Settings, UserCircle2, Paperclip, Image as ImageIcon,
-  Send, Mic, Terminal, FileCode2, ChevronDown, CheckCircle2, Loader2, CircleDot, Maximize2, Minimize2, X, Cpu, Wifi,
+  Send, Mic, Terminal, FileCode2, ChevronDown, CheckCircle2, Loader2, X, Cpu, Wifi,
 } from "lucide-react";
-import ayra from "@/assets/ayra.png.asset.json";
 import { ThemeToggle } from "./ThemeToggle";
+import { Sash } from "./Sash";
+import { WorkflowTree } from "./WorkflowTree";
+import { useLiveWorkflows } from "@/hooks/use-live-workflows";
+import { dashDepts } from "@/data/dashboards";
+import { AyraAvatar as Avatar } from "./AyraAvatar";
 
 type Task = { id: number; title: string; progress: number; status: "running" | "done" };
 type Msg = { from: "you" | "ayra"; text: string };
@@ -24,42 +28,6 @@ function reply(t: string) {
   return "Samajh gayi. Aur bataiye, main sun rahi hoon 🎧";
 }
 
-// Drag handles (VS Code style sash). "col" = vertical bar between side-by-side panels, "row" = horizontal bar.
-function Sash({ dir }: { dir: "col" | "row" }) {
-  return (
-    <Separator
-      className={`group relative shrink-0 bg-border transition-colors hover:bg-glow data-[separator=active]:bg-glow ${dir === "col" ? "w-px cursor-col-resize" : "h-px cursor-row-resize"}`}
-    >
-      <span className={`absolute ${dir === "col" ? "inset-y-0 -left-1 w-2" : "inset-x-0 -top-1 h-2"}`} />
-    </Separator>
-  );
-}
-
-// The portrait always shows the whole face: a blurred copy fills the frame, the sharp portrait is
-// "contain"-fitted on top, so any panel size / shape keeps the face fully visible and auto-scaled.
-function Avatar({ big, speaking, text, onToggle }: { big: boolean; speaking: boolean; text?: string | undefined; onToggle: () => void }) {
-  return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg border border-glow/40 bg-panel glow-ring scan animate-pop [container-type:size]">
-      <img src={ayra.url} alt="" aria-hidden className="absolute inset-0 h-full w-full scale-125 object-cover object-top opacity-40 blur-2xl" />
-      <img src={ayra.url} alt="AYRA AI agent" className={`absolute inset-0 h-full w-full object-contain object-top ${speaking ? "" : "animate-breathe"}`} />
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-background/80 to-transparent p-2" style={{ fontSize: "clamp(10px, 2.6cqw, 14px)" }}>
-        <span className="flex items-center gap-1 rounded bg-background/70 px-1.5 font-mono text-glow"><CircleDot className="h-3 w-3 animate-pulse text-destructive" />LIVE · AYRA</span>
-        <button onClick={onToggle} className="rounded bg-background/70 p-1 hover:bg-accent" aria-label="Toggle stage">
-          {big ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-        </button>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/85 to-transparent p-3">
-        <div className="mb-1.5 flex h-4 items-end gap-0.5">
-          {Array.from({ length: big ? 32 : 18 }).map((_, i) => (
-            <span key={i} className={`w-1 rounded-full bg-glow ${speaking ? "animate-wave" : "opacity-30"}`} style={{ height: "100%", animationDelay: `${i * 0.05}s` }} />
-          ))}
-        </div>
-        <p className="line-clamp-2 text-foreground" style={{ fontSize: "clamp(11px, 3.4cqw, 22px)" }}>{speaking ? "soch rahi hoon…" : text}</p>
-      </div>
-    </div>
-  );
-}
-
 export function Workstation() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [msgs, setMsgs] = useState<Msg[]>([{ from: "ayra", text: "Hello! Main AYRA. Koi bhi command, photo ya file bhejiye." }]);
@@ -70,6 +38,7 @@ export function Workstation() {
   const [log, setLog] = useState<string[]>(["AYRA kernel v1.0 booted", "All systems online"]);
   const fileRef = useRef<HTMLInputElement>(null);
   const idRef = useRef(1);
+  const live = useLiveWorkflows(dashDepts["workstation"]!, 3);
 
   const running = tasks.some((t) => t.status === "running");
   const onStage = !running || forceFull; // full screen anchor mode
@@ -101,6 +70,7 @@ export function Workstation() {
       setForceFull(false);
       setTasks((ts) => [{ id: idRef.current++, title: t, progress: 0, status: "running" as const }, ...ts].slice(0, 20));
       setLog((l) => [...l, `▶ Task started: ${t}`]);
+      live.addTask(t);
     }
     say(reply(t));
   };
@@ -189,7 +159,7 @@ ${tasks.map((t) => `▸ ${t.title.padEnd(40)} ${Math.round(t.progress)}%  ${t.st
           <Panel id="agent" defaultSize="30%" minSize="18%" maxSize="60%">
             <aside className="h-full bg-panel">
               <Group orientation="vertical">
-                <Panel id="agent-main" defaultSize="70%" minSize="25%">
+                <Panel id="agent-main" defaultSize="60%" minSize="25%">
                   <div className="h-full p-2">
                     {onStage ? (
                       <div className="flex h-full flex-col gap-2 overflow-auto p-1">
@@ -201,10 +171,10 @@ ${tasks.map((t) => `▸ ${t.title.padEnd(40)} ${Math.round(t.progress)}%  ${t.st
                   </div>
                 </Panel>
                 <Sash dir="row" />
-                <Panel id="agent-tasks" defaultSize="20%" minSize="8%">
+                <Panel id="agent-tasks" defaultSize="30%" minSize="8%">
                   <div className="h-full overflow-auto px-2 py-1">
                     <div className="mb-1 text-[11px] uppercase tracking-widest text-muted-foreground">Tasks ({tasks.length})</div>
-                    {tasks.length === 0 && <p className="text-xs text-muted-foreground">Koi task nahi. AYRA idle hai.</p>}
+                    {tasks.length === 0 && <p className="mb-1 text-xs text-muted-foreground">Aapka koi task nahi. Team ka live kaam neeche:</p>}
                     {tasks.map((t) => (
                       <div key={t.id} className="mb-1.5">
                         <div className="flex items-center gap-1.5 text-xs">
@@ -214,6 +184,7 @@ ${tasks.map((t) => `▸ ${t.title.padEnd(40)} ${Math.round(t.progress)}%  ${t.st
                         <div className="mt-0.5 h-1 rounded bg-secondary"><div className="h-1 rounded bg-glow transition-all" style={{ width: `${t.progress}%` }} /></div>
                       </div>
                     ))}
+                    <div className="mt-2 border-t border-border pt-2"><WorkflowTree workflows={live.workflows} /></div>
                   </div>
                 </Panel>
                 <Sash dir="row" />

@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { DashLink } from "@/components/ayra/DashLink";
 import { dashboards } from "@/data/dashboards";
 
 export const Route = createFileRoute("/admin/dashboards")({
@@ -30,7 +31,7 @@ function DashMap() {
               <div key={d.id} className="rounded-lg border border-border bg-card p-3">
                 <div className="flex items-center justify-between">
                   <span className="font-semibold">{d.name}</span>
-                  {d.href ? <Link to={d.href} className="rounded bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">Ready · open</Link> : <span className="text-[11px] text-muted-foreground">planned</span>}
+                  <DashLink id={d.id} className="rounded bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">Open</DashLink>
                 </div>
                 <p className="text-[11px] text-muted-foreground">👤 {d.audience}</p>
                 <p className="mt-1 text-xs">{d.purpose}</p>
