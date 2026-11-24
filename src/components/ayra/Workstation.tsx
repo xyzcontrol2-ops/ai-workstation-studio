@@ -100,7 +100,7 @@ export function Workstation() {
       {/* title bar */}
       <div className="flex h-8 items-center justify-between border-b border-border bg-activity px-3 text-xs text-muted-foreground">
         <div className="flex items-center gap-3"><span className="font-bold text-ai">◆ AYRA</span>{["File","Edit","View","Run","Terminal","Help"].map((m)=><span key={m} className="hidden hover:text-foreground sm:inline">{m}</span>)}</div>
-        <span className="font-mono">AYRA Workstation</span>
+        <a href="/admin" className="rounded border border-glow/40 px-2 font-mono text-glow hover:bg-accent">AYRA Workstation · Super Admin →</a>
         <div className="flex items-center gap-2"><Wifi className="h-3 w-3 text-success" /><Cpu className="h-3 w-3 text-glow" /></div>
       </div>
 
