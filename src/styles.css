@@ -153,3 +153,53 @@
     color: var(--color-foreground);
   }
 }
+
+/* AYRA workstation theme */
+:root {
+  --background: oklch(0.14 0.02 250);
+  --foreground: oklch(0.93 0.01 240);
+  --card: oklch(0.18 0.025 250);
+  --card-foreground: oklch(0.93 0.01 240);
+  --popover: oklch(0.18 0.025 250);
+  --popover-foreground: oklch(0.93 0.01 240);
+  --primary: oklch(0.8 0.15 220);
+  --primary-foreground: oklch(0.14 0.02 250);
+  --secondary: oklch(0.22 0.03 250);
+  --secondary-foreground: oklch(0.9 0.01 240);
+  --muted: oklch(0.2 0.025 250);
+  --muted-foreground: oklch(0.62 0.03 240);
+  --accent: oklch(0.26 0.05 230);
+  --accent-foreground: oklch(0.95 0.01 240);
+  --border: oklch(0.27 0.03 250);
+  --input: oklch(0.27 0.03 250);
+  --ring: oklch(0.8 0.15 220);
+  --panel: oklch(0.11 0.018 250);
+  --activity: oklch(0.09 0.015 250);
+  --glow: oklch(0.82 0.16 215);
+  --success: oklch(0.78 0.16 155);
+  --warn: oklch(0.82 0.15 80);
+  --shadow-glow: 0 0 24px -4px color-mix(in oklab, var(--glow) 60%, transparent);
+  --gradient-ai: linear-gradient(135deg, var(--glow), oklch(0.92 0.02 240));
+}
+@theme inline {
+  --color-panel: var(--panel);
+  --color-activity: var(--activity);
+  --color-glow: var(--glow);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+@utility glow-ring { box-shadow: var(--shadow-glow); }
+@utility text-ai { background: var(--gradient-ai); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@utility scan {
+  position: relative; overflow: hidden;
+  &::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 0%, color-mix(in oklab, var(--glow) 25%, transparent) 50%, transparent 100%); height: 30%; animation: scan 3.5s linear infinite; pointer-events: none; }
+}
+@keyframes scan { from { transform: translateY(-100%); } to { transform: translateY(400%); } }
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+@keyframes wave { 0%,100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.92) translateY(12px); } to { opacity: 1; transform: none; } }
+@utility animate-breathe { animation: breathe 4s ease-in-out infinite; }
+@utility animate-wave { animation: wave .9s ease-in-out infinite; transform-origin: bottom; }
+@utility animate-pop { animation: pop-in .5s cubic-bezier(.2,.8,.2,1) both; }
