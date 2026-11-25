@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { agents } from "@/data/agents";
 import { dashboards, dashDepts } from "@/data/dashboards";
+import { RoleManager, ApprovalsPanel } from "@/components/ayra/AdminPanels";
 import { LiveDots } from "@/components/ayra/WorkflowTree";
 
 export const Route = createFileRoute("/_authenticated/admin/d/$id")({
@@ -35,6 +36,9 @@ function DashboardPage() {
     <main className="p-4 md:p-6">
       <h1 className="text-xl font-bold"><span className="mr-2 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name} <span className="ml-2 align-middle text-xs font-normal text-glow">live <LiveDots className="ml-1" /></span></h1>
       <p className="text-xs text-muted-foreground">👤 {d.audience} · {d.purpose}</p>
+
+      {d.id === "settings" && <RoleManager />}
+      {d.id === "approvals" && <ApprovalsPanel />}
 
       <section className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {d.widgets.map((w) => {

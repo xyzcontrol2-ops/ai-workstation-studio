@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { Sash } from "./Sash";
+import { DashboardList } from "./DashboardList";
 import { WorkflowTree } from "./WorkflowTree";
 import { useLiveWorkflows } from "@/hooks/use-live-workflows";
 import { dashDepts } from "@/data/dashboards";
@@ -116,6 +117,7 @@ export function Workstation() {
                   <FileCode2 className="h-3.5 w-3.5 shrink-0 text-glow" />{f}
                 </button>
               ))}
+              <div className="min-h-0 flex-1 overflow-auto border-t border-border"><DashboardList /></div>
             </aside>
           </Panel>
           <Sash dir="col" />

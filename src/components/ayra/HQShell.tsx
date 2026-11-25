@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Group, Panel } from "react-resizable-panels";
-import { LayoutDashboard, Bot, Map, MonitorPlay, ChevronDown, Terminal, Send, Mic, Paperclip, Wifi, Cpu, X } from "lucide-react";
-import { dashboards, dashDepts, groups } from "@/data/dashboards";
+import { LayoutDashboard, Bot, Map, MonitorPlay, Terminal, Send, Mic, Paperclip, Wifi, Cpu, X } from "lucide-react";
+import { dashboards, dashDepts } from "@/data/dashboards";
 import { useLiveWorkflows } from "@/hooks/use-live-workflows";
 import { AyraAvatar } from "./AyraAvatar";
 import { WorkflowTree } from "./WorkflowTree";
 import { ThemeToggle } from "./ThemeToggle";
 import { DashLink } from "./DashLink";
 import { Sash } from "./Sash";
+import { DashboardList, AccessGate } from "./DashboardList";
 
 function currentId(path: string) {
   if (path.startsWith("/admin/d/")) return path.split("/")[3] ?? "super";
@@ -62,18 +63,7 @@ export function HQShell({ children }: { children: ReactNode }) {
 
         <Group orientation="horizontal" className="min-w-0 flex-1">
           <Panel id="hq-explorer" defaultSize="16%" minSize="8%" maxSize="30%" className="hidden sm:block">
-            <aside className="h-full overflow-auto bg-panel py-2">
-              <div className="px-4 pb-1 text-[11px] uppercase tracking-widest text-muted-foreground">Dashboards</div>
-              {groups.map((g) => (
-                <div key={g} className="mb-2">
-                  <div className="flex items-center gap-1 px-2 text-[11px] font-semibold uppercase"><ChevronDown className="h-3 w-3" />{g}</div>
-                  {dashboards.filter((d) => d.group === g).map((d) => (
-                    <DashLink key={d.id} id={d.id} className="flex gap-1.5 truncate px-5 py-1 text-xs text-muted-foreground hover:bg-secondary"><span className="font-mono text-glow/70">{String(d.no).padStart(2, "0")}</span><span className="truncate">{d.name}</span></DashLink>
-                  ))}
-                </div>
-              ))}
-              <DashLink id="map" className="block px-4 py-1 text-xs text-glow hover:bg-secondary">▸ Full dashboard map</DashLink>
-            </aside>
+            <aside className="h-full overflow-auto bg-panel"><DashboardList /></aside>
           </Panel>
           <Sash dir="col" />
 
@@ -84,7 +74,7 @@ export function HQShell({ children }: { children: ReactNode }) {
                   <div className="flex h-9 shrink-0 items-end border-b border-border bg-panel">
                     <div className="flex items-center gap-2 border-t-2 border-glow bg-background px-3 py-1.5 font-mono text-xs">{name}<X className="h-3 w-3" /></div>
                   </div>
-                  <div className="min-h-0 flex-1 overflow-auto">{children}</div>
+                  <div className="min-h-0 flex-1 overflow-auto"><AccessGate id={id}>{children}</AccessGate></div>
                 </div>
               </Panel>
               <Sash dir="row" />
@@ -130,7 +120,7 @@ export function HQShell({ children }: { children: ReactNode }) {
 
       <div className="flex h-6 shrink-0 items-center justify-between bg-primary px-3 font-mono text-[11px] text-primary-foreground">
         <span>⎇ main · AYRA {running ? "working…" : "online"}</span>
-        <span>{running} live workflows · <Link to="/" className="underline">Workstation</Link></span>
+        <span>{running} live workflows · <Link to="/workstation" className="underline">Workstation</Link></span>
       </div>
     </div>
   );
