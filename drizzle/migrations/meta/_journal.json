@@ -8,6 +8,13 @@
       "when": 1795535287715,
       "tag": "0000_roles_profiles_approvals",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795565900522,
+      "tag": "0001_owner_setup_check",
+      "breakpoints": true
     }
   ]
 }

@@ -101,6 +101,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      owner_exists: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role:
