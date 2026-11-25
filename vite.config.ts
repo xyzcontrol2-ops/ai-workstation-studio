@@ -1,18 +1,105 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// Never set ssr.external or resolve.external: the Worker has no runtime module resolution, so
-// the build fails. Never add compression (compressPublicAssets, vite-plugin-compression):
-// hosting already compresses at the edge.
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { defineConfig, type Plugin } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import { nitro } from 'nitro/vite'
+import { isAllowedAyraRequest } from './src/server/api-port-policy.ts'
+
+const FRONTEND_ORIGIN = 'http://localhost:3030'
+
+function addRequestMiddleware(
+  server: {
+    config: { server?: { port?: number }; preview?: { port?: number } }
+    middlewares: {
+      use: (
+        middleware: (
+          request: import('node:http').IncomingMessage,
+          response: import('node:http').ServerResponse,
+          next: (error?: unknown) => void,
+        ) => void,
+      ) => void
+    }
+  },
+  port: number | undefined,
+): void {
+  server.middlewares.use((request, response, next) => {
+    const pathname = request.url?.split('?')[0] ?? ''
+    if (!isAllowedAyraRequest(port, pathname)) {
+      response.statusCode = 404
+      response.setHeader('Content-Type', 'application/json; charset=utf-8')
+      response.end(JSON.stringify({ error: 'Backend port exposes API routes only.' }))
+      return
+    }
+    if (!applyCorsHeaders(request, response)) next()
+  })
+}
+
+function applyCorsHeaders(
+  request: import('node:http').IncomingMessage,
+  response: import('node:http').ServerResponse,
+): boolean {
+  if (!request.url?.startsWith('/api/')) return false
+
+  const origin = request.headers.origin
+  if (origin === FRONTEND_ORIGIN) {
+    response.setHeader('Access-Control-Allow-Origin', FRONTEND_ORIGIN)
+    response.setHeader('Access-Control-Allow-Credentials', 'true')
+    response.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    )
+    response.setHeader(
+      'Access-Control-Allow-Headers',
+      'Authorization,Content-Type,X-Ayra-Owner-Token,Last-Event-ID',
+    )
+    response.setHeader('Access-Control-Max-Age', '600')
+    response.setHeader('Vary', 'Origin')
+  }
+
+  if (request.method !== 'OPTIONS') return false
+  response.statusCode = origin === FRONTEND_ORIGIN ? 204 : 403
+  response.end()
+  return true
+}
+
+const ayraApiCorsPlugin: Plugin = {
+  name: 'ayra-api-cors',
+  enforce: 'pre',
+  configureServer(server) {
+    addRequestMiddleware(server, server.config.server.port)
+  },
+  configurePreviewServer(server) {
+    addRequestMiddleware(server, server.config.preview.port)
+  },
+}
 
 export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+  server: {
+    host: 'localhost',
+    port: 3030,
+    strictPort: true,
+    cors: {
+      origin: 'http://localhost:3030',
+      credentials: true,
+    },
   },
-});
+  preview: {
+    host: 'localhost',
+    port: 3030,
+    strictPort: true,
+    cors: {
+      origin: 'http://localhost:3030',
+      credentials: true,
+    },
+  },
+  resolve: {
+    tsconfigPaths: true,
+  },
+  plugins: [
+    ayraApiCorsPlugin,
+    tanstackStart({
+      srcDirectory: 'src',
+    }),
+    viteReact(),
+    nitro(),
+  ],
+})
