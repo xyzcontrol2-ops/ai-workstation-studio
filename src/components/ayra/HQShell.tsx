@@ -66,7 +66,7 @@ export function HQShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        <Group orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
+        <Group key={mobile ? "mobile" : "desktop"} orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
           {!mobile && <>
           <Panel id="hq-explorer" defaultSize="16%" minSize="8%" maxSize="30%" className="hidden sm:block">
             <aside className="h-full overflow-auto bg-panel"><DashboardList /></aside>

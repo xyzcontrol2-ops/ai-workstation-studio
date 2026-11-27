@@ -109,7 +109,7 @@ export function Workstation() {
         </nav>
 
         {/* all panels are drag-resizable */}
-        <Group orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
+        <Group key={mobile ? "mobile" : "desktop"} orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
           {!mobile && <>
           {/* explorer */}
           <Panel id="explorer" defaultSize="14%" minSize="8%" maxSize="30%" className="hidden sm:block">
