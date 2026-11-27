@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashLink } from "@/components/ayra/DashLink";
 import { architecture, dashboards, groups } from "@/data/dashboards";
+import { RoleIcon } from "@/components/ayra/RoleIcon";
 
 export const Route = createFileRoute("/_authenticated/admin/dashboards")({
   head: () => ({

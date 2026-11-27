@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bot, Users, FolderKanban, ShieldAlert, IndianRupee, Server, Power, CheckCircle2, ShieldCheck } from "lucide-react";
 import { agents, departments } from "@/data/agents";
 import { guardrails } from "@/data/dashboards";
+import { RoleIcon } from "@/components/ayra/RoleIcon";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({

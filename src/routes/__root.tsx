@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import { AuthProvider } from "@/hooks/use-auth";
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
+import signal from "@/assets/ayra-signal.gif.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -85,7 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "AYRA Workstation" },
       { name: "description", content: "AYRA AI personal assistant workstation" },
-      { name: "author", content: "Lovable" },
+      { name: "author", content: "AYRA HQ" },
       { property: "og:title", content: "AYRA Workstation" },
       { property: "og:description", content: "AYRA AI personal assistant workstation" },
       { property: "og:type", content: "website" },

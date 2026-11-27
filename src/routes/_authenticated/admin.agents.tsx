@@ -35,7 +35,10 @@ function Registry() {
 
   return (
     <main className="p-4 md:p-6">
-      <h1 className="text-xl font-bold">Agent <span className="text-ai">Registry</span> <span className="font-mono text-sm text-muted-foreground">({list.length}/{agents.length})</span></h1>
+      <div className="flex items-center gap-3">
+        <RoleIcon dashboard="agents" dept="ai" badge />
+        <h1 className="text-xl font-bold">Agent <span className="text-ai">Registry</span> <span className="font-mono text-sm text-muted-foreground">({list.length}/{agents.length})</span></h1>
+      </div>
       <div className="my-4 flex flex-wrap items-center gap-2">
         <div className="relative"><Search className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Agent ya skill dhundhein…" className="w-full max-w-64 rounded border border-input bg-background py-1.5 pl-8 pr-2 text-xs outline-none focus:border-glow" /></div>
