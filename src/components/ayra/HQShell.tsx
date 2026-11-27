@@ -10,6 +10,9 @@ import { ThemeToggle } from "./ThemeToggle";
 import { DashLink } from "./DashLink";
 import { Sash } from "./Sash";
 import { DashboardList, AccessGate } from "./DashboardList";
+import { BrandMark } from "./BrandMark";
+import { RoleIcon } from "./RoleIcon";
+import { Button } from "@/components/ui/button";
 
 function currentId(path: string) {
   if (path.startsWith("/admin/d/")) return path.split("/")[3] ?? "super";
@@ -43,9 +46,9 @@ export function HQShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background font-sans text-sm text-foreground">
-      <div className="flex h-8 shrink-0 items-center justify-between border-b border-border bg-secondary px-3 text-xs text-muted-foreground">
-        <div className="flex items-center gap-3"><span className="font-bold text-ai">◆ AYRA HQ</span><span className="hidden font-mono sm:inline">/ {name}</span></div>
+    <div className="ayra-shell flex h-screen flex-col overflow-hidden bg-background font-sans text-sm text-foreground">
+      <div className="ayra-titlebar flex h-11 shrink-0 items-center justify-between gap-2 border-b border-border bg-secondary px-3 text-xs text-muted-foreground">
+        <div className="flex min-w-0 items-center gap-3"><BrandMark /><span className="hidden truncate font-mono sm:inline">/ {name}</span></div>
         <div className="flex items-center gap-2"><ThemeToggle /><Wifi className="h-3 w-3 text-success" /><Cpu className="h-3 w-3 text-glow" /></div>
       </div>
 
@@ -72,7 +75,7 @@ export function HQShell({ children }: { children: ReactNode }) {
               <Panel id="hq-main" defaultSize="75%" minSize="25%">
                 <div className="flex h-full min-w-0 flex-col">
                   <div className="flex h-9 shrink-0 items-end border-b border-border bg-panel">
-                    <div className="flex items-center gap-2 border-t-2 border-glow bg-background px-3 py-1.5 font-mono text-xs">{name}<X className="h-3 w-3" /></div>
+                    <div className="flex min-w-0 items-center gap-2 border-t-2 border-glow bg-background px-3 py-1.5 font-mono text-xs"><RoleIcon dashboard={id} /><span className="truncate">{name}</span><X className="h-3 w-3 shrink-0" /></div>
                   </div>
                   <div className="min-h-0 flex-1 overflow-auto"><AccessGate id={id}>{children}</AccessGate></div>
                 </div>
@@ -109,7 +112,7 @@ export function HQShell({ children }: { children: ReactNode }) {
                     <span className="p-1.5 text-muted-foreground"><Paperclip className="h-4 w-4" /></span>
                     <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="AYRA ko kaam dein…" className="min-w-0 flex-1 rounded border border-input bg-background px-2 py-1.5 text-xs outline-none focus:border-glow" />
                     <span className="p-1.5 text-muted-foreground"><Mic className="h-4 w-4" /></span>
-                    <button type="submit" className="rounded bg-primary p-1.5 text-primary-foreground" aria-label="Send"><Send className="h-4 w-4" /></button>
+                    <Button type="submit" size="icon" className="h-8 w-8 shrink-0" aria-label="Send"><Send className="h-4 w-4" /></Button>
                   </form>
                 </Panel>
               </Group>

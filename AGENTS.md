@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep presentation-only role and dashboard icon mappings in a shared module; authorization remains in the existing access layer.
+- Use semantic CSS tokens for category accents and respect reduced motion for all decorative animation.

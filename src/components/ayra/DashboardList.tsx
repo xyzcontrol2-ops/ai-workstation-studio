@@ -3,6 +3,8 @@ import { dashboards, groups } from "@/data/dashboards";
 import { useAuth } from "@/hooks/use-auth";
 import { canOpen, roleLabels } from "@/lib/access";
 import { DashLink } from "./DashLink";
+import { RoleIcon } from "./RoleIcon";
+import { Button } from "@/components/ui/button";
 
 /** Explorer list of the dashboards the signed-in user's roles allow. */
 export function DashboardList() {
@@ -19,7 +21,7 @@ export function DashboardList() {
           <div key={g} className="mb-2">
             <div className="flex items-center gap-1 px-2 text-[11px] font-semibold uppercase"><ChevronDown className="h-3 w-3" />{g}</div>
             {list.map((d) => (
-              <DashLink key={d.id} id={d.id} className="flex gap-1.5 truncate px-5 py-1 text-xs text-muted-foreground hover:bg-secondary"><span className="font-mono text-glow/70">{String(d.no).padStart(2, "0")}</span><span className="truncate">{d.name}</span></DashLink>
+              <DashLink key={d.id} id={d.id} className="dashboard-link flex min-w-0 items-start gap-2 px-3 py-2 text-xs text-muted-foreground hover:bg-secondary" ><RoleIcon dashboard={d.id} dept={d.depts[0] ?? "ai"} className="mt-0.5" /><span className="min-w-0 flex-1 break-words leading-4">{d.name}</span><span className="font-mono text-[9px] text-muted-foreground/60">{String(d.no).padStart(2, "0")}</span></DashLink>
             ))}
           </div>
         );
@@ -28,7 +30,7 @@ export function DashboardList() {
       <div className="mt-3 border-t border-border px-4 pt-2 text-[11px] text-muted-foreground">
         <div className="truncate">{user?.email}</div>
         <div className="truncate">{roles.map((r) => roleLabels[r]).join(", ") || "pending"}</div>
-        <button onClick={() => void signOut()} className="mt-1 flex items-center gap-1 text-destructive hover:underline"><LogOut className="h-3 w-3" />Sign out</button>
+        <Button variant="ghost" size="sm" onClick={() => void signOut()} className="mt-1 h-7 px-0 text-destructive"><LogOut className="h-3 w-3" />Sign out</Button>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { CheckCircle2, Circle, Sparkles } from "lucide-react";
 import type { Workflow } from "@/hooks/use-live-workflows";
+import { RoleIcon } from "./RoleIcon";
 
 export function LiveDots({ className = "" }: { className?: string }) {
   return (
@@ -30,7 +31,7 @@ export function WorkflowTree({ workflows }: { workflows: Workflow[] }) {
               <span className={`truncate ${done ? "text-muted-foreground" : "text-foreground"}`}>{w.title}</span>
               <span className="ml-auto shrink-0 text-muted-foreground">{pct}%</span>
             </div>
-            <div className="truncate pl-4 text-[10px] text-glow">↳ {w.agent}</div>
+            <div className="flex min-w-0 items-center gap-1.5 pl-4 text-[10px] text-glow"><RoleIcon name={w.agent} /><span className="truncate">{w.agent}</span></div>
             <div className="ml-1.5 border-l border-dashed border-border pl-3">
               {w.steps.map((s) => (
                 <div key={s.label} className="flex items-center gap-1.5">
