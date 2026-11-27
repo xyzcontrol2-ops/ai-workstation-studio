@@ -13,6 +13,7 @@ import { DashboardList, AccessGate } from "./DashboardList";
 import { BrandMark } from "./BrandMark";
 import { RoleIcon } from "./RoleIcon";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 function currentId(path: string) {
   if (path.startsWith("/admin/d/")) return path.split("/")[3] ?? "super";
@@ -23,6 +24,7 @@ function currentId(path: string) {
 
 /** Shared VS Code-style frame for every dashboard: explorer, tabs, live terminal and AYRA with the live workflow tree. */
 export function HQShell({ children }: { children: ReactNode }) {
+  const mobile = useIsMobile();
   const path = useRouterState({ select: (s) => s.location.pathname });
   const id = currentId(path);
   const name = id === "map" ? "Dashboard Map" : dashboards.find((d) => d.id === id)?.name ?? "Dashboard";
@@ -64,13 +66,15 @@ export function HQShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        <Group orientation="horizontal" className="min-w-0 flex-1">
+        <Group orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
+          {!mobile && <>
           <Panel id="hq-explorer" defaultSize="16%" minSize="8%" maxSize="30%" className="hidden sm:block">
             <aside className="h-full overflow-auto bg-panel"><DashboardList /></aside>
           </Panel>
           <Sash dir="col" />
+          </>}
 
-          <Panel id="hq-work" defaultSize="52%" minSize="25%">
+          <Panel id="hq-work" defaultSize={mobile ? "62%" : "52%"} minSize="25%">
             <Group orientation="vertical">
               <Panel id="hq-main" defaultSize="75%" minSize="25%">
                 <div className="flex h-full min-w-0 flex-col">
@@ -92,15 +96,15 @@ export function HQShell({ children }: { children: ReactNode }) {
               </Panel>
             </Group>
           </Panel>
-          <Sash dir="col" />
+          <Sash dir={mobile ? "row" : "col"} />
 
           {/* AYRA is on every dashboard: face, live workflow tree, command box */}
-          <Panel id="hq-ayra" defaultSize="32%" minSize="18%" maxSize="60%">
+          <Panel id="hq-ayra" defaultSize={mobile ? "38%" : "32%"} minSize="18%" maxSize="60%">
             <aside className="h-full bg-panel">
               <Group orientation="vertical">
-                <Panel id="hq-ayra-face" defaultSize="42%" minSize="15%"><div className="h-full p-2"><AyraAvatar speaking={speaking} text={line} /></div></Panel>
+                <Panel id="hq-ayra-face" defaultSize={mobile ? "60%" : "42%"} minSize="15%"><div className="h-full p-2"><AyraAvatar speaking={speaking} text={line} /></div></Panel>
                 <Sash dir="row" />
-                <Panel id="hq-ayra-tree" defaultSize="48%" minSize="10%">
+                <Panel id="hq-ayra-tree" defaultSize={mobile ? "30%" : "48%"} minSize="10%">
                   <div className="h-full overflow-auto px-3 py-2">
                     <div className="mb-1 text-[11px] uppercase tracking-widest text-muted-foreground">Agent workflow · live</div>
                     <WorkflowTree workflows={workflows} />

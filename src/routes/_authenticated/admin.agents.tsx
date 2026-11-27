@@ -38,7 +38,7 @@ function Registry() {
       <h1 className="text-xl font-bold">Agent <span className="text-ai">Registry</span> <span className="font-mono text-sm text-muted-foreground">({list.length}/{agents.length})</span></h1>
       <div className="my-4 flex flex-wrap items-center gap-2">
         <div className="relative"><Search className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Agent ya skill dhundhein…" className="w-64 rounded border border-input bg-background py-1.5 pl-8 pr-2 text-xs outline-none focus:border-glow" /></div>
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Agent ya skill dhundhein…" className="w-full max-w-64 rounded border border-input bg-background py-1.5 pl-8 pr-2 text-xs outline-none focus:border-glow" /></div>
         <Button variant="outline" size="sm" onClick={() => nav({ search: {} })} className={!dept ? "border-glow text-glow" : "text-muted-foreground"}>All</Button>
         {departments.map((d) => (
           <Button variant="outline" size="sm" key={d.id} onClick={() => nav({ search: { dept: d.id } })} className={`h-auto whitespace-normal py-1.5 text-left ${dept === d.id ? "border-glow text-glow" : "text-muted-foreground"}`}><RoleIcon dept={d.id} />{d.name}</Button>

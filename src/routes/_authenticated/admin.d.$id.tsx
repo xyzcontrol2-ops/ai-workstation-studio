@@ -3,6 +3,7 @@ import { agents } from "@/data/agents";
 import { dashboards, dashDepts } from "@/data/dashboards";
 import { RoleManager, ApprovalsPanel } from "@/components/ayra/AdminPanels";
 import { LiveDots } from "@/components/ayra/WorkflowTree";
+import { RoleIcon } from "@/components/ayra/RoleIcon";
 
 export const Route = createFileRoute("/_authenticated/admin/d/$id")({
   loader: ({ params }) => {
@@ -54,13 +55,14 @@ function DashboardPage() {
         })}
       </section>
 
-      <section className="mt-4 rounded-lg border border-border bg-panel p-3">
+      <section className="mt-6 border-t border-border pt-4">
         <h2 className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Agents on duty here</h2>
         <div className="grid gap-2 sm:grid-cols-2">
           {onDuty.map((a) => (
-            <div key={a.id} className="flex items-center gap-2 rounded border border-border bg-card p-2 text-xs">
+            <div key={a.id} className="flex min-w-0 items-center gap-2 rounded border border-border bg-card p-2 text-xs">
+              <RoleIcon name={a.name} dept={a.dept} />
               <span className={`h-2 w-2 rounded-full ${dot[a.status]} ${a.status === "busy" || a.status === "online" ? "animate-pulse" : ""}`} />
-              <span className="font-semibold">{a.name}</span><span className="truncate text-muted-foreground">{a.specialty}</span>
+              <div className="min-w-0 flex-1"><span className="block font-semibold">{a.name}</span><span className="block truncate text-muted-foreground">{a.specialty}</span></div>
             </div>
           ))}
         </div>

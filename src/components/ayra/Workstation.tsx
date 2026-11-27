@@ -12,6 +12,7 @@ import { useLiveWorkflows } from "@/hooks/use-live-workflows";
 import { dashDepts } from "@/data/dashboards";
 import { AyraAvatar as Avatar } from "./AyraAvatar";
 import { BrandMark } from "./BrandMark";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Task = { id: number; title: string; progress: number; status: "running" | "done" };
 type Msg = { from: "you" | "ayra"; text: string };
@@ -31,6 +32,7 @@ function reply(t: string) {
 }
 
 export function Workstation() {
+  const mobile = useIsMobile();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [msgs, setMsgs] = useState<Msg[]>([{ from: "ayra", text: "Hello! Main AYRA. Koi bhi command, photo ya file bhejiye." }]);
   const [input, setInput] = useState("");
@@ -107,7 +109,8 @@ export function Workstation() {
         </nav>
 
         {/* all panels are drag-resizable */}
-        <Group orientation="horizontal" className="min-w-0 flex-1">
+        <Group orientation={mobile ? "vertical" : "horizontal"} className="min-w-0 flex-1">
+          {!mobile && <>
           {/* explorer */}
           <Panel id="explorer" defaultSize="14%" minSize="8%" maxSize="30%" className="hidden sm:block">
             <aside className="flex h-full flex-col overflow-hidden bg-panel">
@@ -122,9 +125,10 @@ export function Workstation() {
             </aside>
           </Panel>
           <Sash dir="col" />
+          </>}
 
           {/* workspace + terminal */}
-          <Panel id="workspace" defaultSize="56%" minSize="20%">
+          <Panel id="workspace" defaultSize={mobile ? "58%" : "56%"} minSize="20%">
             <Group orientation="vertical">
               <Panel id="editor" defaultSize="75%" minSize="25%">
                 <main className="flex h-full min-w-0 flex-col">
@@ -156,10 +160,10 @@ ${tasks.map((t) => `▸ ${t.title.padEnd(40)} ${Math.round(t.progress)}%  ${t.st
               </Panel>
             </Group>
           </Panel>
-          <Sash dir="col" />
+          <Sash dir={mobile ? "row" : "col"} />
 
           {/* agent sidebar: 70% AYRA/chat, 20% tasks, 10% command box (all resizable) */}
-          <Panel id="agent" defaultSize="30%" minSize="18%" maxSize="60%">
+          <Panel id="agent" defaultSize={mobile ? "42%" : "30%"} minSize="18%" maxSize="60%">
             <aside className="h-full bg-panel">
               <Group orientation="vertical">
                 <Panel id="agent-main" defaultSize="60%" minSize="25%">
