@@ -35,8 +35,13 @@ function DashboardPage() {
 
   return (
     <main className="p-4 md:p-6">
-      <h1 className="text-xl font-bold"><span className="mr-2 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name} <span className="ml-2 align-middle text-xs font-normal text-glow">live <LiveDots className="ml-1" /></span></h1>
-      <p className="text-xs text-muted-foreground">👤 {d.audience} · {d.purpose}</p>
+      <div className="flex items-center gap-3">
+        <RoleIcon dashboard={d.id} dept={d.depts[0] ?? "ai"} badge />
+        <div>
+          <h1 className="text-xl font-bold"><span className="mr-2 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name} <span className="ml-2 align-middle text-xs font-normal text-glow">live <LiveDots className="ml-1" /></span></h1>
+          <p className="text-xs text-muted-foreground">{d.audience} · {d.purpose}</p>
+        </div>
+      </div>
 
       {d.id === "settings" && <RoleManager />}
       {d.id === "approvals" && <ApprovalsPanel />}
@@ -46,7 +51,7 @@ function DashboardPage() {
           const h = hash(d.id + w);
           const bars = Array.from({ length: 12 }, (_, i) => 20 + ((h * (i + 3)) % 80));
           return (
-            <div key={w} className="rounded-lg border border-border bg-card p-3">
+            <div key={w} className="hud-card rounded-lg border border-border p-3">
               <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{w}</div>
               <div className="mt-1 text-2xl font-bold">{(h % 90) + 10}</div>
               <div className="mt-2 flex h-8 items-end gap-0.5">{bars.map((b, i) => <span key={i} className="flex-1 rounded-sm bg-glow/60" style={{ height: `${b}%` }} />)}</div>
@@ -60,7 +65,7 @@ function DashboardPage() {
         <div className="grid gap-2 sm:grid-cols-2">
           {onDuty.map((a) => (
             <div key={a.id} className="flex min-w-0 items-center gap-2 rounded border border-border bg-card p-2 text-xs">
-              <RoleIcon name={a.name} dept={a.dept} />
+              <RoleIcon name={a.name} dept={a.dept} badge />
               <span className={`h-2 w-2 rounded-full ${dot[a.status]} ${a.status === "busy" || a.status === "online" ? "animate-pulse" : ""}`} />
               <div className="min-w-0 flex-1"><span className="block font-semibold">{a.name}</span><span className="block truncate text-muted-foreground">{a.specialty}</span></div>
             </div>

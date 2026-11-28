@@ -54,7 +54,7 @@ function SuperAdmin() {
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-6">
         {kpis.map(({ label, value, icon: I }) => (
-          <div key={label} className="rounded-lg border border-border bg-card p-3 glow-ring">
+          <div key={label} className="hud-card rounded-lg border border-border p-3 glow-ring">
             <I className="mb-2 h-4 w-4 text-glow" />
             <div className="text-2xl font-bold">{value}</div>
             <div className="text-[11px] text-muted-foreground">{label}</div>
@@ -67,8 +67,8 @@ function SuperAdmin() {
           <h2 className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">Departments · agent fleet</h2>
           <div className="grid gap-2 sm:grid-cols-2">
             {departments.map((d) => (
-              <Link key={d.id} to="/admin/agents" search={{ dept: d.id }} className="rounded border border-border bg-card p-3 hover:border-glow">
-                <div className="flex items-center justify-between"><span className="font-semibold">{d.name}</span><span className="font-mono text-glow">{d.agents.length}</span></div>
+              <Link key={d.id} to="/admin/agents" search={{ dept: d.id }} className="hud-card rounded border border-border p-3 transition-colors hover:border-glow">
+                <div className="flex items-center gap-2"><RoleIcon dept={d.id} badge /><span className="min-w-0 flex-1 font-semibold">{d.name}</span><span className="font-mono text-glow">{d.agents.length}</span></div>
                 <p className="mt-1 text-xs text-muted-foreground">{d.blurb}</p>
               </Link>
             ))}

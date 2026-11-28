@@ -4,22 +4,39 @@ import {
   ChartColumnIncreasing, ChartNoAxesCombined, ChartSpline, CheckCheck, ClipboardCheck,
   ClipboardList, Cloud, CloudCog, CloudDownload, Code2, Container, Cpu, Crosshair, Crown,
   Database, DatabaseZap, EyeOff, FileChartColumn, FileCode2, FileKey, FileSearch,
-  FileSpreadsheet, Figma, FlaskConical, Gamepad2, Gauge, Globe, GraduationCap, HandCoins,
+  FileSpreadsheet, Figma, FlaskConical, Gamepad2, Gauge, GitPullRequest, Globe, GraduationCap, HandCoins,
   Headphones, Headset, Image, ImagePlay, KeyRound, Languages, Link2, ListChecks, ListTodo,
   LockKeyhole, MailWarning, Megaphone, MessageSquareCode, MonitorCheck, MonitorSmartphone,
   Network, NotebookPen, Palette, PenTool, Radar, RadioTower, ReceiptText, RefreshCcw, Scale,
-  ScanEye, ScanLine, ScanSearch, Search, SearchCheck, Server, ServerCog, Settings, Share2,
+  ScanEye, ScanSearch, Search, SearchCheck, Server, ServerCog, Settings, Share2, Siren, ScrollText,
   ShieldAlert, ShieldCheck, ShieldEllipsis, SlidersHorizontal, Smartphone, SquareCode,
   SquareKanban, SquareTerminal, Store, Tags, TrendingUp, UserPlus, UserRoundCheck, UsersRound,
   Wallet, Waypoints, Wifi, Workflow, Wrench, type LucideIcon,
 } from "lucide-react";
 import { agents } from "@/data/agents";
 import { cn } from "@/lib/utils";
+import engSticker from "@/assets/stickers/engineering.webp";
+import devopsSticker from "@/assets/stickers/devops.webp";
+import blueSticker from "@/assets/stickers/cyber-defense.webp";
+import redSticker from "@/assets/stickers/offensive-security.webp";
+import aiSticker from "@/assets/stickers/ai-lab.webp";
+import dataSticker from "@/assets/stickers/data.webp";
+import qaSticker from "@/assets/stickers/testing.webp";
+import designSticker from "@/assets/stickers/design.webp";
+import mgmtSticker from "@/assets/stickers/operations.webp";
+import marketSticker from "@/assets/stickers/marketplace.webp";
+import govSticker from "@/assets/stickers/governance.webp";
 
 export const departmentIcons: Record<string, LucideIcon> = {
   eng: Code2, devops: Server, blue: ShieldCheck, red: ShieldAlert, ai: BrainCircuit,
   data: ChartNoAxesCombined, qa: FlaskConical, design: Palette, mgmt: BriefcaseBusiness,
   market: Megaphone, gov: Scale,
+};
+
+export const departmentStickers: Record<string, string> = {
+  eng: engSticker, devops: devopsSticker, blue: blueSticker, red: redSticker, ai: aiSticker,
+  data: dataSticker, qa: qaSticker, design: designSticker, mgmt: mgmtSticker,
+  market: marketSticker, gov: govSticker,
 };
 
 /** Every specialist has an intentional icon; adding an agent without one breaks the registry test. */
@@ -30,7 +47,7 @@ export const roleIcons: Record<string, LucideIcon> = {
   "Mobile App Dev": Smartphone,
   "API Designer": Cable,
   "Database Architect": Database,
-  "Code Reviewer": GitPullRequestIcon,
+  "Code Reviewer": GitPullRequest,
   "Refactor Specialist": RefreshCcw,
   "Bug Fixer": Bug,
   "Legacy Modernizer": ArchiveRestore,
@@ -53,13 +70,13 @@ export const roleIcons: Record<string, LucideIcon> = {
   "Container Builder": Container,
 
   "SOC Analyst": Radar,
-  "Incident Responder": SirenIcon,
+  "Incident Responder": Siren,
   "Threat Hunter": Crosshair,
   "Malware Analyst": ScanSearch,
   "Digital Forensics": FileSearch,
   "Vulnerability Manager": ShieldEllipsis,
   "Patch Manager": Wrench,
-  "SIEM Log Analyst": ScrollTextIcon,
+  "SIEM Log Analyst": ScrollText,
   "IAM Guardian": KeyRound,
   "Zero-Trust Architect": LockKeyhole,
   "Phishing Defender": MailWarning,
@@ -136,7 +153,7 @@ export const roleIcons: Record<string, LucideIcon> = {
   "ISO 27001 Auditor": ClipboardCheck,
   "SOC 2 Readiness Agent": ShieldCheck,
   "Risk Manager": ShieldAlert,
-  "Policy Writer": ScrollTextIcon,
+  "Policy Writer": ScrollText,
 };
 
 export const dashboardIcons: Record<string, LucideIcon> = {
@@ -166,17 +183,16 @@ export function RoleIcon({ name, dept, dashboard, className, badge = false }: {
   const resolvedDept = dept ?? agents.find((a) => a.name === name)?.dept ?? "ai";
   const Icon = dashboard ? dashboardIcons[dashboard] ?? Bot : getRoleIcon(name, resolvedDept);
   const label = name ?? dashboard ?? resolvedDept;
+  const sticker = badge && !dashboard ? departmentStickers[resolvedDept] : undefined;
   return (
     <span
       title={label}
       role="img"
       aria-label={`${label} role icon`}
-      className={cn("inline-flex shrink-0 items-center justify-center", tones[resolvedDept], badge && "role-badge h-10 w-10 rounded-lg", className)}
+      className={cn("inline-flex shrink-0 items-center justify-center", tones[resolvedDept], badge && "role-badge h-10 w-10 rounded-lg", sticker && "sticker-badge", className)}
     >
-      <Icon className={badge ? "h-5 w-5" : "h-3.5 w-3.5"} strokeWidth={1.8} aria-hidden="true" />
+      {sticker && <img src={sticker} alt="" width={40} height={40} loading="lazy" decoding="async" className="role-sticker" />}
+      <Icon className={cn(badge ? "h-5 w-5" : "h-3.5 w-3.5", sticker && "role-glyph")} strokeWidth={1.8} aria-hidden="true" />
     </span>
   );
 }
-
-// Aliases keep the registry readable while using the same crisp Lucide vector set.
-import { GitPullRequest as GitPullRequestIcon, Siren as SirenIcon, ScrollText as ScrollTextIcon } from "lucide-react";

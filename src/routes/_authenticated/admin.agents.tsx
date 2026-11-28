@@ -54,7 +54,7 @@ function Registry() {
       )}
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {list.map((a) => (
-          <div key={a.id} className="agent-card rounded-lg border border-border bg-card p-4">
+          <div key={a.id} className="agent-card hud-card rounded-lg border border-border p-4">
             <div className="mb-3 flex items-center gap-3"><RoleIcon name={a.name} dept={a.dept} badge /><span className="font-mono text-[10px] uppercase text-muted-foreground">{a.id}</span></div>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-semibold leading-5">{a.name}</span>

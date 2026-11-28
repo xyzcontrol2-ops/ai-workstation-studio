@@ -34,9 +34,10 @@ function DashMap() {
           <h2 className="mb-2 text-xs uppercase tracking-widest text-glow">{g}</h2>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {dashboards.filter((d) => d.group === g).map((d) => (
-              <div key={d.id} className={`rounded-lg border bg-card p-3 ${d.no === 1 ? "border-glow glow-ring" : "border-border"}`}>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-semibold"><span className="mr-1.5 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name}</span>
+              <div key={d.id} className={`hud-card rounded-lg border p-3 ${d.no === 1 ? "border-glow glow-ring" : "border-border"}`}>
+                <div className="flex items-center gap-2">
+                  <RoleIcon dashboard={d.id} dept={d.depts[0] ?? "ai"} badge />
+                  <span className="min-w-0 flex-1 font-semibold"><span className="mr-1.5 font-mono text-glow">{String(d.no).padStart(2, "0")}</span>{d.name}</span>
                   <DashLink id={d.id} className="shrink-0 rounded bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">Open</DashLink>
                 </div>
                 <p className="text-[11px] text-muted-foreground">🔒 {d.audience}</p>

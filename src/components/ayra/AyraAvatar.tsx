@@ -75,6 +75,9 @@ export function AyraAvatar({ big = false, speaking, text, onToggle, src = ayra.u
         <img
           src={src}
           alt={`${name} AI agent`}
+          decoding="async"
+          fetchPriority={big ? "high" : "auto"}
+          draggable={false}
           className={`h-full w-auto max-w-full object-cover object-top ${speaking ? "animate-talk" : "animate-breathe"}`}
           style={{ maskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, #000 22%, #000 78%, transparent)" }}
         />

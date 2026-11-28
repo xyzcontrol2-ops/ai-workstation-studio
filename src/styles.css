@@ -233,6 +233,7 @@ html[data-theme="light"] {
 @keyframes flow { from { background-position: 0 0; } to { background-position: 0 16px; } }
 @keyframes talk { 0%,100% { transform: rotate(0) translateY(0); } 20% { transform: rotate(-1deg) translateY(1px); } 45% { transform: rotate(.7deg) translateY(-2px); } 70% { transform: rotate(-.4deg) translateY(1px); } }
 @keyframes signal-pulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--glow) 28%, transparent); } 50% { box-shadow: 0 0 0 4px transparent; } }
+@keyframes sticker-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-2px) rotate(2deg); } }
 
 .ayra-shell { text-rendering: optimizeLegibility; }
 .ayra-shell main {
@@ -274,6 +275,30 @@ html[data-theme="light"] {
   box-shadow: inset 0 1px 0 color-mix(in oklab, currentColor 10%, transparent);
 }
 .role-badge svg { transition: transform .2s ease; }
+.sticker-badge { position: relative; overflow: visible; border-color: transparent; background: transparent; box-shadow: none; }
+.role-sticker {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 5px color-mix(in oklab, currentColor 18%, transparent));
+  animation: sticker-float 3.6s ease-in-out infinite;
+  transform-origin: 50% 70%;
+}
+.agent-card:nth-child(3n) .role-sticker { animation-delay: -1.2s; }
+.agent-card:nth-child(3n + 1) .role-sticker { animation-delay: -2.4s; }
+.sticker-badge .role-glyph {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--activity);
+  color: var(--foreground);
+  box-shadow: 0 2px 8px color-mix(in oklab, var(--activity) 55%, transparent);
+}
 .agent-card { transition: border-color .2s, transform .2s, box-shadow .2s; }
 .agent-card:hover { border-color: color-mix(in oklab, var(--glow) 65%, var(--border)); transform: translateY(-2px); }
 .agent-card:hover .role-badge svg { transform: rotate(-4deg) scale(1.08); }

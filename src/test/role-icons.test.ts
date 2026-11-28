@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { Smartphone, Radar, ImagePlay, ReceiptText } from "lucide-react";
-import { agents } from "@/data/agents";
+import { agents, departments } from "@/data/agents";
 import { dashboards } from "@/data/dashboards";
-import { dashboardIcons, getRoleIcon, roleIcons } from "@/components/ayra/RoleIcon";
+import { dashboardIcons, departmentStickers, getRoleIcon, roleIcons } from "@/components/ayra/RoleIcon";
 
 describe("AYRA role icon registry", () => {
   it("assigns an explicit role icon to every one of the 103 agents", () => {
@@ -14,6 +14,11 @@ describe("AYRA role icon registry", () => {
   it("assigns an explicit icon to every one of the 30 dashboards", () => {
     expect(dashboards).toHaveLength(30);
     for (const dashboard of dashboards) expect(dashboardIcons[dashboard.id], dashboard.name).toBeDefined();
+  });
+
+  it("provides an animated 3D sticker asset for every agent department", () => {
+    expect(Object.keys(departmentStickers)).toHaveLength(departments.length);
+    for (const department of departments) expect(departmentStickers[department.id], department.name).toMatch(/\.webp$/);
   });
 
   it("uses the specialist icon instead of a generic department fallback", () => {
